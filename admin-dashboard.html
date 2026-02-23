@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Dashboard</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+  <div class="header">
+    <img class="logo" src="Вариативная часть 09.02.07 от Царицыно/Медиа/Логотип LearnUp.png">
+    <h1>Панель администратора</h1>
+    <a href="/index.html">Выйти</a>
+  </div>
+  <div class="body">
+    <div class="applications-section">
+      <h2>Все заявки</h2>
+      <div id="applications-list">
+        <p>Загрузка заявок...</p>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Загружаем заявки при загрузке страницы
+    document.addEventListener('DOMContentLoaded', function () {
+      fetch('/admin/applications')
+        .then(response => response.json())
+        .then(data => {
+          const list = document.getElementById('applications-list');
+          list.innerHTML = '';
+
+          if (data.length === 0) {
+            list.innerHTML = '<p>Нет заявок</p>';
+          } else {
+            data.forEach(app => {
+              const div = document.createElement('div');
+              div.className = 'application-item';
+              div.innerHTML = `
+                <h3>${app.course_name}</h3>
+                <p>Дата начала: ${app.start_date}</p>
+                <p>Пользователь: ${app.user_name}</p>
+                <p>Статус: 
+                  <select onchange="updateStatus(${app.id}, this.value)">
+                    <option value="1" ${app.status_id === 1 ? 'selected' : ''}>Новая</option>
+                    <option value="2" ${app.status_id === 2 ? 'selected' : ''}>Идет обучение</option>
+                    <option value="3" ${app.status_id === 3 ? 'selected' : ''}>Обучение завершено</option>
+                  </select>
+                </p>
+                <hr>
+              `;
+              list.appendChild(div);
+            });
+          }
+        })
+        .catch(error => {
+          console.error('Ошибка загрузки заявок:', error);
+          document.getElementById('applications-list').innerHTML = '<p>Ошибка загрузки заявок</p>';
+        });
+    });
+
+    // Функция для обновления статуса заявки
+    function updateStatus(applicationId, newStatusId) {
+      fetch('/admin/update-status', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          applicationId: applicationId,
+          statusId: newStatusId
+        })
+      })
+        .then(response => response.json())
+        .then(result => {
+          if (result.success) {
+            alert('Статус успешно обновлен');
+          } else {
+            alert('Ошибка при обновлении статуса');
+          }
+        })
+        .catch(error => {
+          console.error('Ошибка:', error);
+          alert('Ошибка при обновлении статуса');
+        });
+    }
+  </script>
+</body>
+
+</html>

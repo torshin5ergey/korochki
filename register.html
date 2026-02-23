@@ -5,22 +5,40 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Document</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
-  <a href="/index.html">Войти</a>
-  <h1>Регистрация</h1>
-  <form action="register" method="post">
-    <p>
-      <label>Логин</label>
-      <input type="text" name="login" required>
-    </p>
-    <p>
-      <label>Пароль</label>
-      <input type="text" name="password" required>
-    </p>
-    <button type="submit">Зарегистрироваться</button>
-  </form>
+  <div class="header">
+    <img class="logo" src="Вариативная часть 09.02.07 от Царицыно/Медиа/Логотип LearnUp.png">
+    <h1>Регистрация</h1>
+    <a href="/index.html">Войти</a>
+  </div>
+  <div class="body">
+    <form class=form action="register" method="post">
+      <p>
+        <label>Логин</label>
+        <input type="text" name="login" required>
+      </p>
+      <p>
+        <label>Пароль</label>
+        <input type="text" name="password" required>
+      </p>
+      <p>
+        <label>ФИО</label>
+        <input type="text" name="name" required>
+      </p>
+      <p>
+        <label>Телефон 8(XXX)XXX-XX-XX</label>
+        <input type="tel" name="phone" pattern="8\(\d{3})\d{3}-\d{2}-\d{2}" placeholder="8(XXX)XXX-XX-XX" required>
+      </p>
+      <p>
+        <label>Адрес электронной почты</label>
+        <input type="text" name="email" required>
+      </p>
+      <button type="submit">Создать пользователя</button>
+    </form>
+  </div>
 </body>
 
 </html>

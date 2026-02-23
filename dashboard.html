@@ -5,12 +5,52 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Document</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
-  <h1>Заявки</h1>
-  <a href="/create.html">Подать заявку</a>
-  <p>заявки будут тут</p>
+  <div class="header">
+    <img class="logo" src="Вариативная часть 09.02.07 от Царицыно/Медиа/Логотип LearnUp.png">
+    <h1>Заявки</h1>
+    <a href="/index.html">Выйти</a>
+  </div>
+  <div class="body">
+    <a href="/create.html">Подать заявку</a>
+
+    <div class="applications-section">
+      <h2>Мои заявки</h2>
+      <ul id="applications-list">
+        <li>Загрузка заявок...</li>
+      </ul>
+    </div>
+  </div>
+
+  <script>
+    // Загружаем заявки при загрузке страницы
+    document.addEventListener('DOMContentLoaded', function () {
+      fetch('/applications')
+        .then(response => response.json())
+        .then(data => {
+          const list = document.getElementById('applications-list');
+          list.innerHTML = '';
+
+          if (data.length === 0) {
+            list.innerHTML = '<li>У вас пока нет заявок</li>';
+          } else {
+            data.forEach(app => {
+              const li = document.createElement('li');
+              li.textContent = `${app.course_name} - ${app.start_date} (${app.status_name})`;
+              list.appendChild(li);
+            });
+          }
+        })
+        .catch(error => {
+          console.error('Ошибка загрузки заявок:', error);
+          document.getElementById('applications-list').innerHTML = '<li>Ошибка загрузки заявок</li>';
+        });
+    });
+  </script>
+
 </body>
 
 </html>
