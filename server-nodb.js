@@ -16,9 +16,12 @@ app.use(express.static('.'));
 
 var database = {
   users: [
-    { id: 0, login: 'Admin', password: 'KorokNET', name: 'Admin', phone: 'Admin', email: 'Admin' }
+    { id: 1, login: 'Admin', password: 'KorokNET', name: 'Admin', phone: '', email: '' },
+    { id: 2, login: 'user', password: 'user', name: 'user', phone: '', email: '' }
   ],
-  enrollments: []
+  enrollments: [
+    { id: 0, user_id: 2, course_name: 'курс', payment_method_id: 2, start_date: '2026-02-26' }
+  ]
 }
 
 var current_user_id = null;
